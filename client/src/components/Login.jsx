@@ -47,7 +47,7 @@ const Login = () => {
 
         {state==='Login'?<p className='mt-5 text-center'>Don't have an account ? <span onClick={()=>setstate('Sign up')} className='text-blue-600 cursor-pointer'>Sign up</span></p>
          :
-        <p className='mt-5 text-center'>Already have an account ? <span className='text-blue-600' onClick={()=>setstate('Login')} >Login</span></p>}
+        <p className='mt-5 text-center'>Already have an account ? <span className='text-blue-600 cursor-pointer' onClick={()=>setstate('Login')} >Login</span></p>}
 
         <img onClick={()=>{setshowLogin(false)}} src={assets.cross_icon} alt="" className='absolute top-5 right-5 cursor-pointer'/>
 
