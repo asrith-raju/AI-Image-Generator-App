@@ -98,6 +98,11 @@ const paymentRazorpay = async (req, res) => {
 
         }
         date = date.now();
+        } catch (error) {
+        console.log(error);
+        res.json({ success:false,message: error.message });
+     }
+    }
 
         const transactionData = {
             userId,
@@ -108,12 +113,21 @@ const paymentRazorpay = async (req, res) => {
         };
         const newTransaction = await transactionModel.create(transactionData);
 
-        awai
-     } catch (error) {
-        console.log(error);
-        res.json({ success:false,message: error.message });
-     }
-    }
+        const options = { 
+            amount: amount * 100,
+            currency: "INR",
+            receipt: newTransaction._id,
+        };
+
+        await razorpayInstance.orders.create(options, (error, order) => {
+             if (error) {
+                console.log(error);
+                return res.json({ success:false,message: error.message });
+             }
+                res.json({ success:true, order  }); 
+        })
+ 
+     
 
 
 export { registerUser, loginUser,userCredits };
