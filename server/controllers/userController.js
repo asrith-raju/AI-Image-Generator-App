@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import razorpay from "razorpay";
+import transactionModel from "../models/transactionModel.js";
 
 
 const registerUser = async (req, res) => {
@@ -105,6 +106,9 @@ const paymentRazorpay = async (req, res) => {
             credits,
             date
         };
+        const newTransaction = await transactionModel.create(transactionData);
+
+        awai
      } catch (error) {
         console.log(error);
         res.json({ success:false,message: error.message });
