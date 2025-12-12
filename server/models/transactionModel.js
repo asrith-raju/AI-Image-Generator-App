@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { use } from "react";
 
 const transactionSchema = new mongoose.Schema({
     userId: { type:String, required:true },
