@@ -73,9 +73,9 @@ const razorpayInstance = new razorpay({
 });
 
 const paymentRazorpay = async (req, res) => {
-     
      try {
-        const {userId,planId}=req.body;
+        const userId = req.userId;
+        const {planId}=req.body;
         const userData = await userModel.findById(userId);
         if(!userId || !planId){
             return res.json({ success:false,message: 'Missing Details' });
@@ -88,7 +88,6 @@ const paymentRazorpay = async (req, res) => {
                 plan='Basic';
                 credits=100;
                 amount=10;
-                
                 break;
             case 'Advanced':
                 plan='Advanced';
