@@ -14,10 +14,6 @@ const BuyCredit = () => {
 
   const initPay = (order) => {
 
-  console.log("✅ Razorpay SDK:", window.Razorpay);
-  console.log("✅ Order object:", order);
-  console.log("✅ Order ID:", order?.id);
-  console.log("✅ Razorpay Key:", import.meta.env.VITE_RAZORPAY_KEY_ID);
 
   if (!window.Razorpay) {
     toast.error("Razorpay SDK not loaded");
@@ -32,12 +28,19 @@ const BuyCredit = () => {
     description: "Credits Payment",
     order_id: order.id,
     receipt: order.receipt,
-    handler: function (response) {
-      console.log("Payment Success:", response);
-      toast.success("Payment successful!");
-    },
-    theme: {
-      color: "#1f2937",
+    handler: async function (response) {
+      try {
+        const {data} = await axios.post(backendUrl+'/api/user/verify-razor',response,{ headers:{token}})
+ 
+        if(data.success){
+          loadCreditdata()
+          navigate('/')
+          toast.success(" Credits added to your account.")
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    
     },
   };
 
@@ -53,7 +56,7 @@ const BuyCredit = () => {
         return
       }
       const {data} = await axios.post(backendUrl+'/api/user/pay-razor',{planId},{ headers:{token}})
-       console.log("✅ Payment Response Data:", data);
+
 
       if(data.success){
          initPay(data.order)
